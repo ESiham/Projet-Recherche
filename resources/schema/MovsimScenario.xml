@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AccelerationModelType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="MovsimScenario.xsd">
+  <ModelParameterIDM T="0.0" a="0.0" b="0.0" delta="4" s0="0.0" s1="0" v0="0.0"/>
+</AccelerationModelType>

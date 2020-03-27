@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Movsim>
+    <VehiclePrototypes>
+		 
+	 <VehiclePrototypeConfiguration label="Truck" length="16" maximum_deceleration="9">
+            <AccelerationModelType>
+                <ModelParameterACC v0="5" T="1.5" s0="4" s1="4" delta="4" a="0.8" b="2.0" coolness="1" />
+            </AccelerationModelType>
+            <LaneChangeModelType european_rules="true" crit_speed_eur="20">
+                <ModelParameterMOBIL safe_deceleration="4.0" minimum_gap="2.0" threshold_acceleration="0.2" right_bias_acceleration="0.3" politeness="0.1" />
+            </LaneChangeModelType>
+        </VehiclePrototypeConfiguration>
+		
+        <VehiclePrototypeConfiguration label="IDM" length="6" maximum_deceleration="9" externalControl="false">
+            <AccelerationModelType>
+               <ModelParameterIDM v0="30"  T="1" s0="1" s1="0" delta="4" a="5" b="3.0"/>
+            </AccelerationModelType>
+            <LaneChangeModelType european_rules="true" crit_speed_eur="15">
+                <ModelParameterMOBIL safe_deceleration="8.0" minimum_gap="3.0" threshold_acceleration="0.1" right_bias_acceleration="0.1" politeness="0.2" />
+            </LaneChangeModelType>
+            <Sensors>
+            	<Telemeter range = "3.0" reliability = "1.0"/>
+            	<GPSReceiver reliability = "1.0"/>
+            	<CommunicationDevice range = "100.0" reliability = "1.0"/> 
+            </Sensors>             
+        </VehiclePrototypeConfiguration>     
+    </VehiclePrototypes>
+    
+    
+    <Scenario network_filename="maop.xodr">
+        <Simulation timestep="0.1" duration="1200" seed="42" crash_exit="true">
+			<ExternalControl agent_port="12300" backlog_port="10" />
+            <TrafficComposition>
+                <VehicleType label="IDM" fraction="0.90" relative_v0_randomization="0.2" />
+				<VehicleType label="Truck" fraction="0.1" relative_v0_randomization="0.2" />  
+            </TrafficComposition>
+            <Road id="1">
+                <TrafficSource logging="false">
+                    <Inflow t="0" q_per_hour="600" v="13.88" />
+                </TrafficSource>
+            </Road>
+            <Road id="4">
+                <TrafficComposition>
+					<VehicleType label="IDM" fraction="0.9" relative_v0_randomization="0.2" />
+					<VehicleType label="Truck" fraction="0.1" relative_v0_randomization="0.2" />
+				</TrafficComposition>
+                <InitialConditions />
+                <TrafficSource>
+                    <Inflow t="0" q_per_hour="500"  v="13.88" />
+                </TrafficSource>
+            </Road>
+        </Simulation>
+		
+		<Routes>
+			<Route label="voiePrincipaleP1">
+                <Road id="1" />
+                <Road id="5" />
+             </Route>
+            <Route label="voiePrincipaleP2">
+                <Road id="3" />
+            </Route>
+            <Route label="voieSecondaire">
+                <Road id="4" />
+            </Route>
+		</Routes>
+		
+<OutputConfiguration>
+        <Trajectories dt="1" route="voiePrincipaleP1" />
+        <Trajectories dt="1" route="voiePrincipaleP2" />
+		<Trajectories dt="1" route="voieSecondaire" />
+</OutputConfiguration>
+		</Scenario>
+</Movsim>
+
