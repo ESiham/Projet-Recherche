@@ -12,43 +12,24 @@ import emotion.NegatifEmotion;
 import emotion.PositifEmotion;
 import fr.ifsttar.licit.simulator.agents.Agent;
 import fr.ifsttar.licit.simulator.agents.perception.AgentPerception;
+import maop.MaopVehicle;
 import maop.MaopVehicleCorrection;
 
 public  class EmotionalVehicle extends MaopVehicleCorrection implements EmotionManagement {
 	
-	Emotion emotion;
+	Emotion dominantEmotion=new Emotion("neutre", 0.0);
 	ArrayList<Emotion> listEmotion = new ArrayList<>();
 	
-
-	public EmotionalVehicle(double roadLength, double d, int laneNumber, double e, double f, Emotion emotion,
-			ArrayList<Emotion> listEmotion) {
-		super(roadLength, d, laneNumber, e, f);
-		this.emotion = emotion;
-		this.listEmotion = listEmotion;
-	}
 	
-	public EmotionalVehicle(double roadLength, double d, int laneNumber, double e, double f) {
-		super(roadLength, d, laneNumber, e, f);
-		// TODO Auto-generated constructor stub
-	}
+	
+	
 
-	public EmotionalVehicle(String label, LongitudinalModelBase accelerationModel,
-			VehiclePrototypeConfiguration configuration, LaneChangeModel laneChangeModel) {
-		super(label, accelerationModel, configuration, laneChangeModel);
-		// TODO Auto-generated constructor stub
-	}
-
-	public EmotionalVehicle(Vehicle vehicle) {
-		super(vehicle);
-		// TODO Auto-generated constructor stub
-	}
-
-	public EmotionalVehicle(MaopVehicleCorrection vehicle,ArrayList<Emotion> emotion) {
+	/*public EmotionalVehicle(MaopVehicleCorrection vehicle,ArrayList<Emotion> emotion) {
    
-		
+		this.listEmotion=emotion;
 		super(vehicle);
 		// TODO Auto-generated constructor stub
-	}
+	}*/
 	@Override
 	public void ModifySpeedAccordingtoEmotion() {
 		for(Emotion e : listEmotion) {
@@ -63,15 +44,25 @@ public  class EmotionalVehicle extends MaopVehicleCorrection implements EmotionM
 	}
 
 
-@Override
-	public ArrayList<Emotion> InitialState(){
-	Emotion e5= new Emotion("Joy",0.3);listEmotion.add(e5);
-	Emotion e1= new Emotion("Anger",0.7);listEmotion.add(e1);
-	Emotion e2= new Emotion("Fear",0.3);listEmotion.add(e2);
-	Emotion e3= new Emotion("Sadness",0.3);listEmotion.add(e3);
-	Emotion e4= new Emotion("Stress",0.3);listEmotion.add(e4);
+
+
+
+	public EmotionalVehicle(MaopVehicleCorrection vehicle) {
+		super(vehicle);
+		Emotion e5= new Emotion("Joy",0.3);this.listEmotion.add(e5);
+		Emotion e1= new Emotion("Anger",0.7);this.listEmotion.add(e1);
+		Emotion e2= new Emotion("Fear",0.3);this.listEmotion.add(e2);
+		Emotion e3= new Emotion("Sadness",0.3);this.listEmotion.add(e3);
+		Emotion e4= new Emotion("Stress",0.3);this.listEmotion.add(e4);
 	
-		return this.setListEmotion(listEmotion);
+		// TODO Auto-generated constructor stub
+	}
+
+
+@Override
+	public void InitialState(){
+	
+	
 	}
 
 /*
@@ -81,24 +72,24 @@ public  class EmotionalVehicle extends MaopVehicleCorrection implements EmotionM
 	}
 */
 	@Override
-	public Emotion DominanteEmotion(ArrayList<Emotion> listEmotion) {
-		   Emotion emotionDomainante=null;
+	public Emotion DominanteEmotion() {
+		  // Emotion emotionDomainante= new Emotion();
 					ArrayList<PositifEmotion> listEmotionPositives=new ArrayList<>();
 					ArrayList<NegatifEmotion> listEmotionNegatives=new ArrayList<>();
 					double sommeIntensitiesNegative=0;
 					double sommeIntensitiesPositive=0;
 					int N=0, P=0;
-					for(int i=0; i < listEmotion.size(); i++) {
-						if(listEmotion.get(i) instanceof PositifEmotion) {
+					for(int i=0; i < this.listEmotion.size(); i++) {
+						if(this.listEmotion.get(i) instanceof PositifEmotion) {
 							P++;
-							sommeIntensitiesPositive=+listEmotion.get(i).getIntensity();
-							listEmotionPositives.add((PositifEmotion) listEmotion.get(i));
+							sommeIntensitiesPositive=+this.listEmotion.get(i).getIntensity();
+							listEmotionPositives.add((PositifEmotion) this.listEmotion.get(i));
 							
 						}
-						if(listEmotion.get(i) instanceof NegatifEmotion) {
+						if(this.listEmotion.get(i) instanceof NegatifEmotion) {
 							N++;
-							sommeIntensitiesNegative=+listEmotion.get(i).getIntensity();
-							listEmotionNegatives.add((NegatifEmotion) listEmotion.get(i));
+							sommeIntensitiesNegative=+this.listEmotion.get(i).getIntensity();
+							listEmotionNegatives.add((NegatifEmotion) this.listEmotion.get(i));
 						}
 							
 					}
@@ -108,7 +99,7 @@ public  class EmotionalVehicle extends MaopVehicleCorrection implements EmotionM
 						{
 							for(int j=i ; j<listEmotionNegatives.size(); j++)
 							{
-								emotionDomainante= listEmotionNegatives.get(i).compareTo( listEmotionNegatives.get(j));
+								this.dominantEmotion= listEmotionNegatives.get(i).compareTo( listEmotionNegatives.get(j));
 							}
 						}
 			                
@@ -118,17 +109,18 @@ public  class EmotionalVehicle extends MaopVehicleCorrection implements EmotionM
 						{
 							for(int j=i ; j<listEmotionPositives.size(); j++)
 							{
-								emotionDomainante = listEmotionPositives.get(i).compareTo( listEmotionPositives.get(j));
+								this.dominantEmotion = listEmotionPositives.get(i).compareTo( listEmotionPositives.get(j));
 							}
 						}
 					}
 					
 				 
-					return emotionDomainante;
-	}
+					return this.dominantEmotion;
+					}
 @Override
 public Emotion ModifyStateAccordingtoDrivers(Vehicle devant, Vehicle arriere, Emotion e, ArrayList<Emotion> list) {
 	// TODO Auto-generated method stub
+	
 	return null;
 }
 @Override
@@ -143,11 +135,12 @@ public void updateState(Emotion emotion) {
 }
 
 @Override
-public void ModifySpeedAccordingtoDominanteEmotion(Emotion e) {
+public void ModifySpeedAccordingtoDominanteEmotion() {
 	// TODO Auto-generated method stub
-	switch(e.getName()) {
+
+	switch(this.DominanteEmotion().getName()) {
 	case "Anger":
-		 this.modifyDesiredSpeed(+1.5);
+		 this.modifyDesiredSpeed(-1.5);
 	case "Stress":
 		 this.scenarioSlowVehicles();
 					

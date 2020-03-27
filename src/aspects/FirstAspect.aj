@@ -36,26 +36,20 @@ public aspect FirstAspect  {
 
 	     MaopVehicleCorrection  mv =(MaopVehicleCorrection) thisJoinPoint.getThis(); 
 	   
-	     EmotionalVehicle emotional = new EmotionalVehicle(mv);// declarer la partie physique
-	    // emotional.InitialState();// ajouter la partie emotionnelle
+	     EmotionalVehicle emotional = new EmotionalVehicle(mv);
 	     
 	    // emotional.ModifySpeedAccordingtoDominanteEmotion(emotional.DominanteEmotion(emotional.getListEmotion()));
 	   
-	     System.out.println("EmotionalVehicle: "+emotional.InitialState()+ "taille de la liste:"+emotional.getListEmotion().size());
+	     System.out.println("EmotionalVehicle: "+emotional.getListEmotion());
+	     System.out.println("emotion domainante"+ emotional.DominanteEmotion().getName());
 	   
 	     
-	     for(int i=0;i<emotional.getListEmotion().size();i++) {
-	    	 System.out.println(emotional.getListEmotion().get(i).getName());
-	     }
+	   
 		
 	}
 	
 
 
-
-	
-
-	
 
 	
 }

@@ -36,7 +36,7 @@ public class MaopVehicleCorrection extends MaopVehicle{
 
 
 	public void createSensedVehicleByCommunication(MeasurementPerception measurementPerception) {
-  
+
 		//ArrayList<SensedVehicle> surroundingVehicles = new ArrayList<SensedVehicle>();
 
 		double myPosition = this.getFrontPosition();
